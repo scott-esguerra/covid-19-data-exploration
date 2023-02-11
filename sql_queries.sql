@@ -48,6 +48,14 @@ FROM `utopian-planet-312216.covid_data.covid_deaths`
 GROUP BY location, population
 ORDER BY case_rate DESC
 
+-- Get the difference between population and total cases
+
+SELECT location, population, MAX(total_cases) AS highest_covid_case, population - MAX(total_cases) AS difference
+FROM `utopian-planet-312216.covid_data.covid_deaths`
+WHERE continent IS NOT NULL
+GROUP BY location, population
+ORDER BY difference DESC
+
 -- Let's find PH
 
 SELECT location, population, MAX(total_cases) AS highest_covid_case, (MAX(total_cases)/population)*100 AS case_rate
@@ -206,3 +214,7 @@ JOIN `utopian-planet-312216.covid_data.covid_vacs` vac
   AND dea.date = vac.date
 WHERE dea.continent is not null
 ORDER BY 1,2,3
+
+
+
+
